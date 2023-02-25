@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const placeSchema = mongoose.Schema({
   title: {
@@ -7,29 +7,35 @@ const placeSchema = mongoose.Schema({
     minLength: 5,
     maxLength: 50
   },
+  location: {
+    type: String,
+    required: true,
+    minLength: 5,
+    maxLength: 50
+  },
   types: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "typeLocation",
+    ref: 'typeLocation',
     required: true
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User", 
+    ref: 'User',
     required: true
   },
   pricing: {
     perDay: Number
   },
-  images: [String],
+  imgs: [String],
   capacity: {
     type: Number,
-    required:true
+    required: true
   },
   description: {
     type: String,
     required: true,
     minLength: 20,
-    maxLength:300
+    maxLength: 300
   },
   address: {
     city: String,
@@ -37,11 +43,11 @@ const placeSchema = mongoose.Schema({
     zipCode: {
       type: Number,
       maxLength: 5,
-      minLength:5
+      minLength: 5
     },
     gps: {
       lat: Number,
-      long:Number
+      long: Number
     }
   }
 })

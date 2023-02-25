@@ -37,7 +37,7 @@ const userSchema = mongoose.Schema({
       default:"CUSTOMER"
     }
   ],
-  places: [
+  favouritePlaces: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref:"Place"
