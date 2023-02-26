@@ -1,55 +1,70 @@
 const mongoose = require('mongoose')
 
-const placeSchema = mongoose.Schema({
+const locationSchema = mongoose.Schema({
+  imgs: {
+    type: Array,
+    required: true,
+    minLength: 5
+  },
+  location: {
+    type: String,
+    required: true,
+    minLength: 5
+  },
   title: {
     type: String,
     required: true,
     minLength: 5,
     maxLength: 50
   },
-  location: {
+  rate: {
+    type: Number,
+    required: false
+  },
+  target: {
     type: String,
-    required: true,
-    minLength: 5,
-    maxLength: 50
-  },
-  types: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'typeLocation',
     required: true
   },
-  owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  pricing: {
-    perDay: Number
-  },
-  imgs: [String],
-  capacity: {
+  price: {
     type: Number,
     required: true
+  },
+  category: {
+    type: String,
+    required: true
+  },
+  authorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Location',
+    required: true
+  },
+  serviceCharge: {
+    type: Number,
+    required: true
+  },
+  caracteristics: {
+    travellers: {
+      type: Number,
+      required: true
+    },
+    rooms: {
+      type: Number,
+      required: true
+    },
+    beds: {
+      type: Number,
+      required: true
+    },
+    bathrooms: {
+      type: Number,
+      required: true
+    }
   },
   description: {
     type: String,
     required: true,
-    minLength: 20,
-    maxLength: 300
+    minLength: 5
   },
-  address: {
-    city: String,
-    street: String,
-    zipCode: {
-      type: Number,
-      maxLength: 5,
-      minLength: 5
-    },
-    gps: {
-      lat: Number,
-      long: Number
-    }
-  }
 })
 
-module.exports = mongoose.model('Place', placeSchema)
+module.exports = mongoose.model('Location', locationSchema)

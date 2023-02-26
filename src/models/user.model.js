@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const userSchema = mongoose.Schema({
   firstName: {
@@ -7,7 +7,7 @@ const userSchema = mongoose.Schema({
     trim: true,
     lowercase: true,
     minLength: 2,
-    maxLength:50
+    maxLength: 50
   },
   lastName: {
     type: String,
@@ -15,34 +15,36 @@ const userSchema = mongoose.Schema({
     trim: true,
     lowercase: true,
     minLength: 2,
-    maxLength:50
+    maxLength: 50
   },
   email: {
     type: String,
     required: true,
-    unique:true
+    unique: true
   },
   password: {
     type: String,
-    required:true
+    required: true
   },
   isAdmin: {
     type: Boolean,
-    default:false
+    default: false
   },
-  type: [
-    {
-      type: String,
-      enum: ["CUSTOMER, OWNER"],
-      default:"CUSTOMER"
-    }
-  ],
-  favouritePlaces: [
+  isSuperHote: {
+    type: Boolean,
+    default: false
+  },
+  role: {
+    type: String,
+    enum: ['CUSTOMER', 'OWNER'],
+    default: 'CUSTOMER'
+  },
+  favouriteLocations: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref:"Place"
+      ref: 'Location'
     }
   ]
 })
 
-module.exports=mongoose.model('User', userSchema)
+module.exports = mongoose.model('User', userSchema)

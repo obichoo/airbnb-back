@@ -17,9 +17,9 @@ mongoose.set('strictQuery', false)
 mongoose
   .connect(process.env.CONNECT_STRING)
   .then(() => {
-    console.log('Connexion à la base de données réussie')
+    console.info('Connexion à la base de données réussie')
   })
-  .catch((err) => console.log(err))
+  .catch((err) => console.error(err))
 
 app.use('/api/v1', apiRouter)
 app.use(errorHandler)

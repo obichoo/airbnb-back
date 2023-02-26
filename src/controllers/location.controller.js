@@ -1,30 +1,48 @@
-const Place = require('../models/location.model');
+const Location = require('../models/location.model')
 
-exports.createPlace = (req, res) => {
-
-  Place.create(req.body).then(
-    (location) => {
-      console.log(location._id);
-      // $set
-      // const user = User.findById(req.userToken.id);
-      // user.places.push(location._id);
-      // user.save();
+exports.createLocation = (req, res) => {
+  Location.create(req.body)
+    .then((location) => {
       res.send(location)
-    }
-  )
-    .catch(err => res.status(400).send(err));
+    })
+    .catch((err) => res.status(400).send(err))
 }
 
-exports.getPlaces = (req, res) => {
-  Place.find().populate('owner').then(
-    (places) => res.send(places)
-    .catch(err => res.status(400).send(err)))
+exports.updateLocation = (req, res) => {
+  Location.findByIdAndUpdate(req.body._id, req.body, { new: true })
+    .then((location) => {
+      if (!location) {
+        return res.status(404).send({
+          message: 'location not found'
+        })
+      }
+      res.send(location)
+    })
+    .catch((err) => {
+      res.status(400).send(err)
+    })
 }
 
-exports.getMyPlaces = (req, res) => {
-  User.findById(req.userToken.id).populate('places').then(
-    (user) => {
-      res.send(user.places);
-    }
-  )
+exports.getLocations = (req, res) => {
+  Location.find()
+    .then((locations) => {
+      res.send(locations)
+    })
+    .catch((err) => res.status(400).send(err))
+}
+
+exports.getLocationById = (req, res) => {
+  Location.findById(req.params.id)
+    .then((locations) => {
+      res.send(locations)
+    })
+    .catch((err) => res.status(400).send(err))
+}
+
+exports.getMyLocations = (req, res) => {
+  User.findById(req.userToken.id)
+    .populate('locations')
+    .then((user) => {
+      res.send(user.locations)
+    })
 }
