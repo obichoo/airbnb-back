@@ -1,18 +1,39 @@
 const User = require('../models/user.model.js')
 const Location = require('../models/location.model.js')
+const bcrypt = require('bcrypt')
 
 exports.updateUser = (req, res) => {
-  User.findByIdAndUpdate(req.userToken.id, req.body, { new: true })
+  User.findById(req.userToken.id)
     .then((user) => {
       if (!user) {
         return res.status(404).send({
-          message: 'User not found'
+          message: 'Utilisateur non trouvé'
         })
       }
-      res.send(user)
+
+      if (req.body.password && bcrypt.compareSync(req.body.password, user.password)) {
+        return res.status(405).send({
+          message: "Le mot de passe est identique à l'ancien"
+        })
+      } else if (req.body.password) {
+        req.body.password = bcrypt.hashSync(req.body.password, 10)
+      }
+
+      User.findByIdAndUpdate(user.id, req.body, { new: true })
+        .then((user) => {
+          res.send(user)
+        })
+        .catch((err) => {
+          res.status(500).send({
+            error: 'email_exists',
+            message: 'Cet email est déjà utilisé'
+          })
+        })
     })
     .catch((err) => {
-      res.status(400).send(err)
+      res.status(500).send({
+        err
+      })
     })
 }
 
@@ -21,7 +42,7 @@ exports.getUserById = (req, res) => {
     .then((user) => {
       if (!user) {
         return res.status(404).send({
-          message: 'User not found'
+          message: 'Utilisateur non trouvé'
         })
       }
       res.send(user)
@@ -31,9 +52,9 @@ exports.getUserById = (req, res) => {
     })
 }
 
-exports.deleteOneUser = (req, res) => {
+exports.deleteUser = (req, res) => {
   User.findByIdAndDelete(req.params.id)
-    .then((user) => res.send({ message: `user with id ${user._id} successfully deleted` }))
+    .then((user) => res.send({ message: 'Utilisateur supprimé' }))
     .catch((err) => res.status(400).send(err))
 }
 
@@ -65,7 +86,7 @@ exports.deleteFavouriteLocation = (req, res) => {
     .then((user) => {
       if (!user) {
         return res.status(404).send({
-          message: 'User not found'
+          message: 'Utilisateur non trouvé'
         })
       }
       res.send(user)

@@ -1,6 +1,8 @@
 const Location = require('../models/location.model')
 
 exports.createLocation = (req, res) => {
+  req.body.authorId = req.userToken.id
+  req.body.rate = 5
   Location.create(req.body)
     .then((location) => {
       res.send(location)
@@ -13,7 +15,7 @@ exports.updateLocation = (req, res) => {
     .then((location) => {
       if (!location) {
         return res.status(404).send({
-          message: 'location not found'
+          message: 'Location non trouvée'
         })
       }
       res.send(location)
@@ -40,9 +42,9 @@ exports.getLocationById = (req, res) => {
 }
 
 exports.getMyLocations = (req, res) => {
-  User.findById(req.userToken.id)
-    .populate('locations')
-    .then((user) => {
-      res.send(user.locations)
+  Location.find({ authorId: req.userToken.id })
+    .then((locations) => {
+      res.send(locations)
     })
+    .catch((err) => res.status(400).send(err))
 }

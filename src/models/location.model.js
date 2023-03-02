@@ -35,7 +35,7 @@ const locationSchema = mongoose.Schema({
   },
   authorId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Location',
+    ref: 'User',
     required: true
   },
   serviceCharge: {
