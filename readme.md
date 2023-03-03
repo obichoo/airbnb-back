@@ -1,5 +1,5 @@
-Prénom: Aubin
-Nom: Olivrie
-YNOV M1 Expert Développeur web
+Aubin OLIVRIE
+-------------------------------------
+Repo back du projet fullstack AirBNB
 ------------------------------------- 
-Repo front du projet fullstack AirBNB
+YNOV M1 Expert Développeur web
